@@ -12,6 +12,23 @@ BLACK_COLOR = (0, 0, 0)
 # Clock
 clock = pygame.time.Clock()
 
+# Class tổng quát dành cho các đối tượng trong game
+class GameObject:
+    def __init__(self, image_path, x, y, width, height):
+        object_image = pygame.image.load(image_path)
+
+        self.image = pygame.transform.scale(object_image, (width, height))
+
+        self.x_pos = x
+        self.y_pos = y
+
+        self.width = width
+        self.height = height
+
+    # Vẽ đối tượng lên màn hình
+    def draw(self, background):
+        background.blit(self.image, (self.x_pos, self.y_pos))
+
 class Game:
     TICK_RATE = 60 # FPS
 
@@ -33,6 +50,9 @@ class Game:
     def run_game_loop(self):
         is_game_over = False
 
+        # Khởi tạo đối tượng hộp kho báu
+        treasure = GameObject('treasure.png', 375, 50, 50, 50)
+
         # Gameloop
         while not is_game_over:
 
@@ -43,6 +63,9 @@ class Game:
             # Vẽ lại màn hình
             self.game_screen.fill(WHITE_COLOR)
             self.game_screen.blit(self.image, (0, 0))
+
+            # Vẽ hộp kho báu
+            treasure.draw(self.game_screen)
 
             # Update
             pygame.display.update()
