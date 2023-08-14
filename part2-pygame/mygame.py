@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # Khởi tạo Pygame
 pygame.init()
@@ -16,6 +17,12 @@ pygame.display.update()
 # Thiết lập thời gian
 clock = pygame.time.Clock()
 
+# Màu đường vẽ
+line_color = (random.randint(0,255), 0, 0)
+
+# Số lượng đường thẳng ngẫu nhiên
+num = 2
+
 # Vòng lặp chính của ứng dụng
 running = True
 while running:
@@ -24,6 +31,15 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    # Thiết lập màu vẽ
+    color = (random.randint(0,255), 0, 0)
+
+    # Vẽ nhiều đường tròn ngẫu nhiên
+    for _ in range(num):
+        center = (random.randint(0, width), random.randint(0, height))
+        radius = random.randint(10, 50)
+        pygame.draw.circle(screen, color, center, radius)
 
     # Cập nhật trạng thái của trò chơi (nhân vật, điểm số, các sự kiện, các hình ảnh, ...)
     pygame.display.update()
