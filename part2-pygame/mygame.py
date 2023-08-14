@@ -17,11 +17,11 @@ pygame.display.update()
 # Thiết lập thời gian
 clock = pygame.time.Clock()
 
-# Màu đường vẽ
-line_color = (random.randint(0,255), 0, 0)
-
 # Số lượng đường thẳng ngẫu nhiên
 num = 2
+
+# Tải hình ảnh
+image = pygame.image.load("image.png")
 
 # Vòng lặp chính của ứng dụng
 running = True
@@ -33,13 +33,16 @@ while running:
             running = False
 
     # Thiết lập màu vẽ
-    color = (random.randint(0,255), 0, 0)
+    color = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
 
     # Vẽ nhiều đường tròn ngẫu nhiên
     for _ in range(num):
         center = (random.randint(0, width), random.randint(0, height))
         radius = random.randint(10, 50)
         pygame.draw.circle(screen, color, center, radius)
+
+    # Vẽ hình ảnh lên cửa sổ
+    screen.blit(image, (275, 175))
 
     # Cập nhật trạng thái của trò chơi (nhân vật, điểm số, các sự kiện, các hình ảnh, ...)
     pygame.display.update()
