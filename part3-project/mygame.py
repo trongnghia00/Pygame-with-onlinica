@@ -47,6 +47,21 @@ class PlayerCharacter(GameObject):
         if self.y_pos >= max_height - 40:
             self.y_pos = max_height - 40
 
+# Class cho NPC (các enemy)
+class NonPlayerCharacter(GameObject):
+    # Tốc độ enemy
+    SPEED = 10
+
+    def __init__(self, image_path, x, y, width, height):
+        super().__init__(image_path, x, y, width, height)
+
+    def move(self, max_width):
+        if self.x_pos <= 0:
+            self.SPEED = abs(self.SPEED)
+        elif self.x_pos >= max_width - 40:
+            self.SPEED = -abs(self.SPEED)
+        self.x_pos += self.SPEED
+
 
 class Game:
     TICK_RATE = 60 # FPS
@@ -75,6 +90,11 @@ class Game:
 
         # Khởi tạo nhân vật
         player_character = PlayerCharacter('player.png', 375, 700, 50, 50)
+
+        # Khởi tạo enemy
+        enemy_0 = NonPlayerCharacter('enemy.png', 20, 600, 50, 50)
+        enemy_1 = NonPlayerCharacter('enemy.png', self.width - 40, 400, 50, 50)
+        enemy_2 = NonPlayerCharacter('enemy.png', 400, 200, 50, 50)
 
         # Gameloop
         while not is_game_over:
@@ -107,6 +127,16 @@ class Game:
             player_character.move(direction, self.height)
             # Vẽ nhân vật ra màn hình
             player_character.draw(self.game_screen)
+
+            # Cập nhật vị trí và vẽ enemy
+            enemy_0.move(self.width)
+            enemy_0.draw(self.game_screen)
+
+            enemy_1.move(self.width)
+            enemy_1.draw(self.game_screen)
+
+            enemy_2.move(self.width)
+            enemy_2.draw(self.game_screen)
 
             # Update
             pygame.display.update()
