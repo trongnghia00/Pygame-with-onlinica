@@ -156,11 +156,18 @@ class Game:
             enemy_2.move(self.width)
             enemy_2.draw(self.game_screen)
 
-            # Kiểm tra thử hàm va chạm hoạt động chính xác không
-            if player_character.detect_collision(enemy_0):
+            # Kiểm tra thắng thua và hiển thị thông báo
+            if player_character.detect_collision(enemy_0) or player_character.detect_collision(enemy_1) or player_character.detect_collision(enemy_2):
                 is_game_over = True
                 text = font.render('Game Over :(', True, BLACK_COLOR)
-                self.game_screen.blit(text, (175, 350))
+                self.game_screen.blit(text, (200, 350))
+                pygame.display.update()
+                pygame.time.delay(2000)
+                break
+            elif player_character.detect_collision(treasure):
+                is_game_over = True
+                text = font.render('You win! :)', True, BLACK_COLOR)
+                self.game_screen.blit(text, (225, 350))
                 pygame.display.update()
                 pygame.time.delay(2000)
                 break
