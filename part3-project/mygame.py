@@ -12,6 +12,10 @@ BLACK_COLOR = (0, 0, 0)
 # Clock
 clock = pygame.time.Clock()
 
+# Khởi tạo font
+pygame.font.init()
+font = pygame.font.SysFont('Arial', 75)
+
 # Class tổng quát dành cho các đối tượng trong game
 class GameObject:
     def __init__(self, image_path, x, y, width, height):
@@ -46,6 +50,20 @@ class PlayerCharacter(GameObject):
         # Đảm bảo nhân vật không di chuyển vượt khỏi màn hình bên dưới
         if self.y_pos >= max_height - 40:
             self.y_pos = max_height - 40
+
+    # Hàm kiểm tra va chạm, trả về True nếu có va chạm
+    def detect_collision(self, other_body):
+        if self.y_pos > other_body.y_pos + other_body.height:
+            return False
+        elif self.y_pos + self.height < other_body.y_pos:
+            return False
+        
+        if self.x_pos > other_body.x_pos + other_body.width:
+            return False
+        elif self.x_pos + self.width < other_body.x_pos:
+            return False
+        
+        return True
 
 # Class cho NPC (các enemy)
 class NonPlayerCharacter(GameObject):
@@ -137,6 +155,15 @@ class Game:
 
             enemy_2.move(self.width)
             enemy_2.draw(self.game_screen)
+
+            # Kiểm tra thử hàm va chạm hoạt động chính xác không
+            if player_character.detect_collision(enemy_0):
+                is_game_over = True
+                text = font.render('Game Over :(', True, BLACK_COLOR)
+                self.game_screen.blit(text, (175, 350))
+                pygame.display.update()
+                pygame.time.delay(2000)
+                break
 
             # Update
             pygame.display.update()
